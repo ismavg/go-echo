@@ -14,6 +14,7 @@ func main() {
 
 	// ENV
 	tcpPort := os.Getenv("TCP_PORT")
+	is_echo := os.Getenv("ECHO")
 	if tcpPort == "" {
 		tcpPort = "1025"
 	}
@@ -72,7 +73,9 @@ func handleTCPRequest(conn net.Conn, message string) {
 	defer conn.Close()
 	defer log.Println(clientId + " - TCP connection closed.")
 
-	conn.Write([]byte(message))
+	if is_echo == true {
+		conn.Write([]byte(message))
+	}
 
 	for {
 		buf := make([]byte, 1024)
@@ -84,6 +87,8 @@ func handleTCPRequest(conn net.Conn, message string) {
 
 		log.Println(clientId+" - Received Raw Data:", data)
 		log.Printf(clientId+" - Received Data (converted to string): %s", data)
-		conn.Write(data)
+		if is_echo == true {
+			conn.Write(data)
+		}
 	}
 }
