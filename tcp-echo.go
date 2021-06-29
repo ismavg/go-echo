@@ -18,6 +18,9 @@ func main() {
 	if tcpPort == "" {
 		tcpPort = "1025"
 	}
+	if is_echo == "" {
+		is_echo = true
+	}
 
 	nodeName := os.Getenv("NODE_NAME")
 	podName := os.Getenv("POD_NAME")
